@@ -1,21 +1,16 @@
 import Router from 'koa-router';
-import * as loggerCtrl from 'apis/logger.ctrl';
 import * as cmcodeCtrl from './cmcode.ctrl';
 
 const cmcode = new Router();
 
-cmcode.get('/', loggerCtrl.logging, cmcodeCtrl.getCmcodeList);
+cmcode.get('/', cmcodeCtrl.getCmcodeList);
 
-cmcode.get('/:cdmajor', loggerCtrl.logging, cmcodeCtrl.getCmcodeByCdMajor);
+cmcode.get('/:cdmajor', cmcodeCtrl.getCmcodeByCdMajor);
 
-cmcode.post('/', loggerCtrl.logging, cmcodeCtrl.addCmcode);
+cmcode.post('/', cmcodeCtrl.addCmcode);
 
-cmcode.patch('/:cdmajor/update', loggerCtrl.logging, cmcodeCtrl.updateCdMajor);
+cmcode.patch('/:cdmajor/update', cmcodeCtrl.updateCdMajor);
 
-cmcode.patch(
-    '/:cdmajor/update/:cdminor',
-    loggerCtrl.logging,
-    cmcodeCtrl.updateCdMinor,
-);
+cmcode.patch('/:cdmajor/update/:cdminor', cmcodeCtrl.updateCdMinor);
 
 export default cmcode;

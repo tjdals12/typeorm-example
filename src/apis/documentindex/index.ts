@@ -1,33 +1,16 @@
 import Router from 'koa-router';
-import * as loggerCtrl from 'apis/logger.ctrl';
 import * as documentIndexCtrl from './documentindex.ctrl';
 
 const documentIndex = new Router();
 
-documentIndex.get(
-    '/',
-    loggerCtrl.logging,
-    documentIndexCtrl.getDocumentIndexList,
-);
+documentIndex.get('/', documentIndexCtrl.getDocumentIndexList);
 
-documentIndex.post('/', loggerCtrl.logging, documentIndexCtrl.addDocumentIndex);
+documentIndex.post('/', documentIndexCtrl.addDocumentIndex);
 
-documentIndex.get(
-    '/:id',
-    loggerCtrl.logging,
-    documentIndexCtrl.getDocumentIndex,
-);
+documentIndex.get('/:id', documentIndexCtrl.getDocumentIndex);
 
-documentIndex.patch(
-    '/:id/update',
-    loggerCtrl.logging,
-    documentIndexCtrl.updateDocumentIndex,
-);
+documentIndex.patch('/:id/update', documentIndexCtrl.updateDocumentIndex);
 
-documentIndex.delete(
-    '/:id/delete',
-    loggerCtrl.logging,
-    documentIndexCtrl.deleteDocumentIndex,
-);
+documentIndex.delete('/:id/delete', documentIndexCtrl.deleteDocumentIndex);
 
 export default documentIndex;

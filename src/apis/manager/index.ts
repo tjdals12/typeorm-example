@@ -1,17 +1,16 @@
 import Router from 'koa-router';
-import * as loggerCtrl from 'apis/logger.ctrl';
 import * as managerCtrl from './manager.ctrl';
 
 const manager = new Router();
 
-manager.get('/', loggerCtrl.logging, managerCtrl.getManagerList);
+manager.get('/', managerCtrl.getManagerList);
 
-manager.post('/', loggerCtrl.logging, managerCtrl.addManager);
+manager.post('/', managerCtrl.addManager);
 
-manager.get('/:id', loggerCtrl.logging, managerCtrl.getManager);
+manager.get('/:id', managerCtrl.getManager);
 
-manager.patch('/:id/update', loggerCtrl.logging, managerCtrl.updateManager);
+manager.patch('/:id/update', managerCtrl.updateManager);
 
-manager.delete('/:id/delete', loggerCtrl.logging, managerCtrl.deleteManager);
+manager.delete('/:id/delete', managerCtrl.deleteManager);
 
 export default manager;

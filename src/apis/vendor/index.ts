@@ -1,13 +1,13 @@
 import Router from 'koa-router';
-import * as loggerCtrl from 'apis/logger.ctrl';
-import * as vendorCtrl from './vendor.ctrl';
+import { VendorService } from './VendorService';
 
 const vendor = new Router();
+const vendorService = new VendorService();
 
-vendor.get('/', loggerCtrl.logging, vendorCtrl.getVendorList);
+vendor.get('/', vendorService.getVendorList);
 
-vendor.post('/', loggerCtrl.logging, vendorCtrl.addVendor);
+vendor.post('/', vendorService.addVendor);
 
-vendor.get('/:id', loggerCtrl.logging, vendorCtrl.getVendor);
+vendor.get('/:id', vendorService.getVendor);
 
 export default vendor;

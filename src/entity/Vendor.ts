@@ -52,7 +52,7 @@ export class Vendor extends CommonEntity {
     @Column({
         name: 'eff_end_date',
         type: 'datetime',
-        default: () => 'CURRENT_TIMESTAMP',
+        default: '9999-12-31 23:59:59',
     })
     public effEndDate: Date;
 

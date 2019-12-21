@@ -3,9 +3,11 @@ import bodyParser from 'koa-bodyparser';
 import cors from 'koa2-cors';
 import helmet from 'koa-helmet';
 import router from 'router';
+import errorHandler from 'middlewares/errorHandler';
 
 const app = new Koa();
 
+app.use(errorHandler());
 app.use(
     bodyParser({
         enableTypes: ['form', 'json'],
