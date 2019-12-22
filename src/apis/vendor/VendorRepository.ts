@@ -8,13 +8,9 @@ export class VendorRepository extends AbstractRepository<Vendor> {
     findVendors = async (): Promise<Vendor[]> => {
         const venodrList = await this.createQueryBuilder('vendor')
             .leftJoinAndSelect('vendor.project', 'project')
-            .innerJoinAndMapMany(
-                'vendor.part',
-                Cmcode,
-                'partCd',
-                'partCd.cdMajor = :cdMajor AND partCd.cdMinor = vendor.partCd',
-                { cdMajor: CMCODE.PART },
-            )
+            .innerJoinAndMapMany('vendor.part', Cmcode, 'partCd', 'partCd.cdMajor = :cdMajor AND partCd.cdMinor = vendor.partCd', {
+                cdMajor: CMCODE.PART,
+            })
             .innerJoinAndMapMany(
                 'vendor.country',
                 Cmcode,
@@ -39,13 +35,9 @@ export class VendorRepository extends AbstractRepository<Vendor> {
         const vendor = await Vendor.createQueryBuilder('vendor')
             .where('vendor.id = :id', { id })
             .leftJoinAndSelect('vendor.project', 'project')
-            .innerJoinAndMapMany(
-                'vendor.part',
-                Cmcode,
-                'partCd',
-                'partCd.cdMajor = :cdMajor AND partCd.cdMinor = vendor.partCd',
-                { cdMajor: CMCODE.PART },
-            )
+            .innerJoinAndMapMany('vendor.part', Cmcode, 'partCd', 'partCd.cdMajor = :cdMajor AND partCd.cdMinor = vendor.partCd', {
+                cdMajor: CMCODE.PART,
+            })
             .innerJoinAndMapMany(
                 'vendor.country',
                 Cmcode,
@@ -65,13 +57,11 @@ export class VendorRepository extends AbstractRepository<Vendor> {
         return vendor;
     };
 
-    addVendor = async (
-        params: Record<string, number | string>,
-    ): Promise<number> => {
+    addVendor = async (param: Record<string, number | string>): Promise<number> => {
         const result = await Vendor.createQueryBuilder('vendor')
             .insert()
             .into('vendor')
-            .values(params)
+            .values(param)
             .execute();
 
         return result.identifiers[0].id;

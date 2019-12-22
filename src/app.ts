@@ -1,33 +1,48 @@
 import Koa from 'koa';
-import bodyParser from 'koa-bodyparser';
 import cors from 'koa2-cors';
 import helmet from 'koa-helmet';
-import router from 'router';
 import errorHandler from 'middlewares/errorHandler';
+import { useKoaServer, useContainer as routingContainer } from 'routing-controllers';
+import { useContainer as ormContainer } from 'typeorm';
+import { Container } from 'typedi';
+import { VendorController } from 'controller/VendorController';
+import { ProjectController } from 'controller/ProjectController';
 
-const app = new Koa();
+class App extends Koa {
+    constructor() {
+        super();
 
-app.use(errorHandler());
-app.use(
-    bodyParser({
-        enableTypes: ['form', 'json'],
-        formLimit: '10mb',
-        jsonLimit: '10mb',
-    }),
-);
+        this.configureContainer();
+        this.configureMiddlewares();
+        this.configureRoutes();
+    }
 
-app.use(
-    cors({
-        origin: '*',
-        allowMethods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'HEAD'],
-        allowHeaders: ['Content-Type', 'Authorization'],
-        exposeHeaders: ['Content-Length', 'Date'],
-    }),
-);
+    configureContainer(): void {
+        routingContainer(Container);
+        ormContainer(Container);
+    }
 
-app.use(router.routes());
-app.use(router.allowedMethods());
+    configureMiddlewares(): void {
+        this.use(errorHandler());
 
-app.use(helmet());
+        this.use(
+            cors({
+                origin: '*',
+                allowMethods: ['GET', 'POST', 'DELETE', 'PATCH', 'PUT', 'HEAD'],
+                allowHeaders: ['Content-Type', 'Authorization'],
+                exposeHeaders: ['Content-Length', 'Date'],
+            }),
+        );
 
-export default app;
+        this.use(helmet());
+    }
+
+    configureRoutes(): void {
+        useKoaServer(this, {
+            controllers: [VendorController, ProjectController],
+            routePrefix: '/api/v1',
+        });
+    }
+}
+
+export default App;

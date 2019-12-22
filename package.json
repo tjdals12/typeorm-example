@@ -10,6 +10,8 @@
         "@types/koa-router": "^7.0.42",
         "@types/koa2-cors": "^2.0.1",
         "@types/winston": "^2.4.4",
+        "class-transformer": "^0.2.3",
+        "class-validator": "^0.11.0",
         "dotenv": "^8.2.0",
         "koa": "^2.11.0",
         "koa-bodyparser": "^4.2.1",
@@ -17,7 +19,11 @@
         "koa-router": "^7.4.0",
         "koa2-cors": "^2.0.6",
         "mysql": "^2.17.1",
+        "reflect-metadata": "^0.1.13",
+        "routing-controllers": "^0.8.0",
+        "typedi": "^0.8.0",
         "typeorm": "^0.2.21",
+        "typeorm-typedi-extensions": "^0.2.3",
         "typescript": "^3.7.3"
     },
     "devDependencies": {
@@ -36,6 +42,6 @@
         "winston-timestamp-colorize": "^1.0.4"
     },
     "scripts": {
-        "dev": "NODE_PATH=src nodemon --watch src/ src/server.ts --exec ts-node"
+        "start": "NODE_PATH=src nodemon --watch src/ src/server.ts --exec ts-node"
     }
 }
