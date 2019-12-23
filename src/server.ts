@@ -5,14 +5,13 @@ import logger from 'logger';
 import { createConnection } from 'typeorm';
 
 const app = new App();
-const { port } = config;
 
 async function main(): Promise<void> {
     await createConnection();
-    logger.info('Connect database');
+    logger.info('Connected database');
 
-    await app.listen(port);
-    logger.info(`Server running at ${port}`);
+    await app.listen(config.port);
+    logger.info(`Server running at ${config.port}`);
 }
 
 main();

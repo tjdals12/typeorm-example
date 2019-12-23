@@ -1,4 +1,4 @@
-import { EntityRepository, Repository } from 'typeorm';
+import { EntityRepository, AbstractRepository } from 'typeorm';
 import { Project } from 'entity/Project';
 import { ProjectRepository } from './ProjectRepository';
 
@@ -8,7 +8,7 @@ import { ProjectRepository } from './ProjectRepository';
  * @description Project Repository Impl
  */
 @EntityRepository(Project)
-export class ProjectRepositoryImpl extends Repository<Project> implements ProjectRepository {
+export class ProjectRepositoryImpl extends AbstractRepository<Project> implements ProjectRepository {
     async findProjects(): Promise<Project[]> {
         const projects = await this.createQueryBuilder('project').getMany();
 
