@@ -1,16 +1,26 @@
-import { EntityRepository, Repository } from 'typeorm';
+import { EntityRepository, AbstractRepository } from 'typeorm';
 import { Project } from 'entity/Project';
+import { Cmcode } from 'entity/Cmcode';
+import { CMCODE } from 'constants/CMCODE';
 import { ProjectRepository } from './ProjectRepository';
 
 /**
  * @author      minz-logger
  * @date        2019. 12. 22
- * @description Project Repository Impl
+ * @description Project Repository Impl.
  */
 @EntityRepository(Project)
-export class ProjectRepositoryImpl extends Repository<Project> implements ProjectRepository {
+export class ProjectRepositoryImpl extends AbstractRepository<Project> implements ProjectRepository {
     async findProjects(): Promise<Project[]> {
-        const projects = await this.createQueryBuilder('project').getMany();
+        const projects = await this.createQueryBuilder('project')
+            .innerJoinAndMapMany(
+                'project.projectGb',
+                Cmcode,
+                'cmcode',
+                'cmcode.cdMajor = :cdMajor AND cmcode.cdMinor = project.projectGbCd',
+                { cdMajor: CMCODE.PROJECT_GB },
+            )
+            .getMany();
 
         return projects;
     }
@@ -18,6 +28,13 @@ export class ProjectRepositoryImpl extends Repository<Project> implements Projec
     async findProject(id: number): Promise<Project> {
         const project = await this.createQueryBuilder('project')
             .where('project.id = :id', { id })
+            .innerJoinAndMapOne(
+                'project.projectGb',
+                Cmcode,
+                'cmcode',
+                'cmcode.cdMajor = :cdMajor AND cmcode.cdMinor = project.projectGbCd',
+                { cdMajor: CMCODE.PROJECT_GB },
+            )
             .getOne();
 
         return project;

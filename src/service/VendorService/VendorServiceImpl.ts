@@ -7,7 +7,7 @@ import { VendorService } from './VendorService';
 /**
  * @author      minz-logger
  * @date        2019. 12. 22
- * @description Vendor Service Impl
+ * @description Vendor Service Impl.
  */
 @Service()
 export class VendorServiceImpl implements VendorService {

@@ -7,6 +7,8 @@ import { useContainer as ormContainer } from 'typeorm';
 import { Container } from 'typedi';
 import { VendorController } from 'controller/VendorController';
 import { ProjectController } from 'controller/ProjectController';
+import { CmcodeController } from 'controller/CmcodeController';
+import { ManagerController } from 'controller/ManagerController';
 
 class App extends Koa {
     constructor() {
@@ -39,7 +41,7 @@ class App extends Koa {
 
     configureRoutes(): void {
         useKoaServer(this, {
-            controllers: [VendorController, ProjectController],
+            controllers: [VendorController, ProjectController, CmcodeController, ManagerController],
             routePrefix: '/api/v1',
         });
     }

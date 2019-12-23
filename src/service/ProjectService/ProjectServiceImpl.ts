@@ -7,7 +7,7 @@ import { ProjectService } from './ProjectService';
 /**
  * @author      minz-logger
  * @date        2019. 12. 22
- * @description Project Repository Impl
+ * @description Project Repository Impl.
  */
 @Service()
 export class ProjectServiceImpl implements ProjectService {
