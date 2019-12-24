@@ -9,6 +9,8 @@ import { VendorController } from 'controller/VendorController';
 import { ProjectController } from 'controller/ProjectController';
 import { CmcodeController } from 'controller/CmcodeController';
 import { ManagerController } from 'controller/ManagerController';
+import { DocumentInfoController } from 'controller/DocumentInfoController';
+import { DocumentIndexController } from 'controller/DocumentIndexController';
 
 class App extends Koa {
     constructor() {
@@ -41,7 +43,14 @@ class App extends Koa {
 
     configureRoutes(): void {
         useKoaServer(this, {
-            controllers: [VendorController, ProjectController, CmcodeController, ManagerController],
+            controllers: [
+                VendorController,
+                ProjectController,
+                CmcodeController,
+                ManagerController,
+                DocumentInfoController,
+                DocumentIndexController,
+            ],
             routePrefix: '/api/v1',
         });
     }
