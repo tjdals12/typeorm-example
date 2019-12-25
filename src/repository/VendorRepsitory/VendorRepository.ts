@@ -1,4 +1,5 @@
 import { Vendor } from 'entity/Vendor';
+import { QueryRunner } from 'typeorm';
 
 /**
  * @author      minz-logger
@@ -27,7 +28,7 @@ export interface VendorRepository {
      * @description 업체 추가
      * @param       param
      */
-    saveVendor(param: Record<string, string>): Promise<number>;
+    saveVendor(param: Record<string, string>, queryRunner?: QueryRunner): Promise<number>;
 
     /**
      * @author      minz-logger
