@@ -14,9 +14,6 @@ const configs: Record<string, Record<string, string | number>> = {
     test: {},
 };
 
-const config: Record<string, string | number> = Object.assign(
-    configs.base,
-    configs[env],
-);
+const config: Record<string, string | number> = Object.assign(configs.base, configs[env]);
 
 export default config;

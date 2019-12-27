@@ -1,5 +1,8 @@
 import { createLogger, transports, format, Logger } from 'winston';
 import TimestampColorize from 'winston-timestamp-colorize';
+import config from 'configs/logger';
+
+const { level } = config;
 
 const commonFormat = format.combine(
     format(info => ({
@@ -18,17 +21,12 @@ const colorFormat = format.combine(
     TimestampColorize({ color: 'green' }),
 );
 
-const printFormat = format.combine(
-    format.printf(
-        info =>
-            `🚀  ${info.timestamp} ${info.label}${info.level} - ${info.message}`,
-    ),
-);
+const printFormat = format.combine(format.printf(info => `🚀  ${info.timestamp} ${info.label}${info.level} - ${info.message}`));
 
 const logger: Logger = createLogger({
+    level,
     transports: [
         new transports.Console({
-            level: 'debug',
             format: format.combine(commonFormat, colorFormat, printFormat),
         }),
     ],

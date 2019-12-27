@@ -27,21 +27,28 @@
         "typescript": "^3.7.3"
     },
     "devDependencies": {
+        "@types/chai": "^4.2.7",
+        "@types/mocha": "^5.2.7",
+        "@types/supertest": "^2.0.8",
         "@typescript-eslint/eslint-plugin": "^2.12.0",
         "@typescript-eslint/parser": "^2.12.0",
+        "chai": "^4.2.0",
         "eslint": "^6.7.2",
         "eslint-config-airbnb-base": "^14.0.0",
         "eslint-config-prettier": "^6.7.0",
         "eslint-plugin-import": "^2.19.1",
         "eslint-plugin-prettier": "^3.1.2",
         "eslint-plugin-react": "^7.17.0",
+        "mocha": "^6.2.2",
         "nodemon": "^2.0.2",
         "prettier": "^1.19.1",
+        "supertest": "^4.0.2",
         "ts-node": "^8.5.4",
         "winston": "^3.2.1",
         "winston-timestamp-colorize": "^1.0.4"
     },
     "scripts": {
-        "start": "NODE_PATH=src nodemon --watch src/ src/server.ts --exec ts-node"
+        "start": "NODE_ENV=development NODE_PATH=src nodemon --watch src/ src/server.ts --exec ts-node",
+        "test": "env NODE_ENV=test NODE_PATH=$NODE_PATH:$PWD/src mocha --timeout 30000 --require node_modules/ts-node/register $(find src/controller/ -name *.spec.ts) --exit"
     }
 }
