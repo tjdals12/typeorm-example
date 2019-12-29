@@ -14,6 +14,7 @@ export class VendorRepositoryImpl extends AbstractRepository<Vendor> implements 
     async findVendors(): Promise<Vendor[]> {
         const vendors = await this.createQueryBuilder('vendor')
             .leftJoinAndSelect('vendor.project', 'project')
+            .leftJoinAndSelect('vendor.manager', 'manager')
             .innerJoinAndMapMany('vendor.part', Cmcode, 'partCd', 'partCd.cdMajor = :cdMajor AND partCd.cdMinor = vendor.partCd', {
                 cdMajor: CMCODE.PART,
             })
@@ -41,6 +42,7 @@ export class VendorRepositoryImpl extends AbstractRepository<Vendor> implements 
         const vendor = await this.createQueryBuilder('vendor')
             .where('vendor.id = :id', { id })
             .leftJoinAndSelect('vendor.project', 'project')
+            .leftJoinAndSelect('vendor.manager', 'manager')
             .innerJoinAndMapMany('vendor.part', Cmcode, 'partCd', 'partCd.cdMajor = :cdMajor AND partCd.cdMinor = vendor.partCd', {
                 cdMajor: CMCODE.PART,
             })

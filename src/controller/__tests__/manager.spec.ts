@@ -1,5 +1,5 @@
-import { Server } from 'http';
 import clc from 'cli-color';
+import { Server } from 'http';
 import config from 'configs';
 import { connect, close } from 'dbConn';
 import App from 'app';
@@ -8,11 +8,11 @@ import { expect } from 'chai';
 
 const { port } = config;
 
-describe(clc.bgGreen(clc.black('[Project]')), () => {
+describe(clc.bgGreen(clc.black('[Manager]')), () => {
     const app = new App();
 
     let server: Server;
-    let projectId: number;
+    let managerId: number;
 
     before(async () => {
         await connect();
@@ -30,14 +30,14 @@ describe(clc.bgGreen(clc.black('[Project]')), () => {
         console.log(clc.yellow('Server close'));
     });
 
-    it('add projectGb code', done => {
+    it('add manager code', done => {
         request(server)
             .post('/api/v1/cmcodes')
             .send({
-                cdMajor: '0001',
+                cdMajor: '0006',
                 cdMinor: '0001',
-                cdFname: '프로젝트 구분',
-                cdSname: '증설',
+                cdFname: '직급 구분',
+                cdSname: '사원',
             })
             .expect(200)
             .end((err, ctx) => {
@@ -46,75 +46,64 @@ describe(clc.bgGreen(clc.black('[Project]')), () => {
                 const { cdMajor, cdMinor, cdFname, cdSname } = ctx.body;
 
                 expect(ctx.body).instanceOf(Object);
-                expect(cdMajor).to.equals('0001');
+                expect(cdMajor).to.equals('0006');
                 expect(cdMinor).to.equals('0001');
-                expect(cdFname).to.equals('프로젝트 구분');
-                expect(cdSname).to.equals('증설');
+                expect(cdFname).to.equals('직급 구분');
+                expect(cdSname).to.equals('사원');
                 done();
             });
     });
 
-    it('get projects', done => {
+    it('add manager', done => {
         request(server)
-            .post('/api/v1/projects')
+            .post('/api/v1/managers')
             .send({
-                projectGbCd: '0001',
-                projectName: 'Methane Gas Sales & CFU/ARO2 Project',
-                projectCode: 'MGS',
-                client: '한화토탈',
-                clientCode: 'HTC',
-                contractor: '한화건설',
-                contractorCode: 'HENC',
-                memo: '',
+                name: '박종진',
+                positionCd: '0001',
             })
+            .expect(200)
             .end((err, ctx) => {
                 if (err) throw err;
 
-                const { id, projectGbCd, projectName, projectCode, client, clientCode, contractor, contractorCode, memo } = ctx.body;
-                projectId = id;
+                const { id, name, positionCd } = ctx.body;
+                managerId = id;
 
                 expect(ctx.body).instanceOf(Object);
-                expect(projectGbCd).to.equals('0001');
-                expect(projectName).to.equals('Methane Gas Sales & CFU/ARO2 Project');
-                expect(projectCode).to.equals('MGS');
-                expect(client).to.equals('한화토탈');
-                expect(clientCode).to.equals('HTC');
-                expect(contractor).to.equals('한화건설');
-                expect(contractorCode).to.equals('HENC');
-                expect(memo).to.equals('');
+                expect(name).to.equals('박종진');
+                expect(positionCd).to.equals('0001');
                 done();
             });
     });
 
-    it('get project', done => {
+    it('get manager', done => {
         request(server)
-            .get(`/api/v1/projects/${projectId}`)
+            .get(`/api/v1/managers/${managerId}`)
             .expect(200)
             .end((err, ctx) => {
                 if (err) throw err;
 
-                expect(ctx.body).have.instanceOf(Object);
-                expect(ctx.body.id).to.equals(projectId);
+                expect(ctx.body).instanceOf(Object);
+                expect(ctx.body.id).to.equals(managerId);
                 done();
             });
     });
 
-    it('get projects', done => {
+    it('get managers', done => {
         request(server)
-            .get('/api/v1/projects')
+            .get('/api/v1/managers')
             .expect(200)
             .end((err, ctx) => {
                 if (err) throw err;
 
-                expect(ctx.body).instanceOf(Array);
+                expect(ctx.body).instanceOf(Object);
                 expect(ctx.body).have.length(1);
                 done();
             });
     });
 
-    it('delete projects', done => {
+    it('delete manager', done => {
         request(server)
-            .delete(`/api/v1/projects/${projectId}`)
+            .delete(`/api/v1/managers/${managerId}`)
             .expect(200)
             .end((err, ctx) => {
                 if (err) throw err;
@@ -124,14 +113,14 @@ describe(clc.bgGreen(clc.black('[Project]')), () => {
             });
     });
 
-    it('get projects', done => {
+    it('get managers', done => {
         request(server)
-            .get('/api/v1/projects')
+            .get('/api/v1/managers')
             .expect(200)
             .end((err, ctx) => {
                 if (err) throw err;
 
-                expect(ctx.body).instanceOf(Array);
+                expect(ctx.body).instanceOf(Object);
                 expect(ctx.body).have.length(0);
                 done();
             });
